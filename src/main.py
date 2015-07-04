@@ -16,6 +16,57 @@ def CopyGrid(src):
             dst.setCell(row,column,cell.Copy())
     return dst
 
+def SolveGrid(grid):
+    loopCount=1
+    while not grid.isSolved():
+        newGrid = CopyGrid(grid)
+        #print("Loop " + str(loopCount) + " Start")
+        #print(grid)
+        #print(newGrid)
+        for column in range(1,10):
+            for row in range(1,10):
+                newCell = newGrid.getCell(row, column)
+                if len(newCell.values) is not 1:
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    columnCells = grid.getColumn(column)
+                    for cell in columnCells:
+                        if len(cell.values) is 1:
+                            value = cell.values[0]
+                            newCell.removeValue(value)
+                    #print("Column: " + str(columnCells))
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    #wait = input()
+                    rowCells = grid.getRow(row)
+                    for cell in rowCells:
+                        if len(cell.values) is 1:
+                            value = cell.values[0]
+                            newCell.removeValue(value)
+                    #print("Row: " + str(rowCells))
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    #wait = input()
+                    gridCells = grid.getLocalGrid(row, column)
+                    for cell in gridCells:
+                        if len(cell.values) is 1:
+                            value = cell.values[0]
+                            newCell.removeValue(value)
+                    #print("Grid: " + str(gridCells))
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    #wait = input()
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    #print(str(column) + ":" + str(row) + "-" + str(newGrid.getCell(row, column)))
+        #print("Loop " + str(loopCount) + " End")
+        #print(grid)
+        #print(newGrid)
+        if grid == newGrid:
+            print("This puzzle cannot be solved")
+            break;
+        else:
+            grid = CopyGrid(newGrid)
+        loopCount = loopCount+1
+        #wait = input()
+    return grid
+    
+
 if __name__ == '__main__':
     print("Starting Sudoku Solver")
     
@@ -66,55 +117,8 @@ if __name__ == '__main__':
     print("Starting Grid")
     print(grid)
     
-    loopCount=1
-    while not grid.isSolved():
-        newGrid = CopyGrid(grid)
-        #print("Loop " + str(loopCount) + " Start")
-        #print(grid)
-        #print(newGrid)
-        for column in range(1,10):
-            for row in range(1,10):
-                newCell = newGrid.getCell(row, column)
-                if len(newCell.values) is not 1:
-                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
-                    columnCells = grid.getColumn(column)
-                    for cell in columnCells:
-                        if len(cell.values) is 1:
-                            value = cell.values[0]
-                            newCell.removeValue(value)
-                    #print("Column: " + str(columnCells))
-                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
-                    #wait = input()
-                    rowCells = grid.getRow(row)
-                    for cell in rowCells:
-                        if len(cell.values) is 1:
-                            value = cell.values[0]
-                            newCell.removeValue(value)
-                    #print("Row: " + str(rowCells))
-                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
-                    #wait = input()
-                    gridCells = grid.getLocalGrid(row, column)
-                    for cell in gridCells:
-                        if len(cell.values) is 1:
-                            value = cell.values[0]
-                            newCell.removeValue(value)
-                    #print("Grid: " + str(gridCells))
-                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
-                    #wait = input()
-                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
-                    #print(str(column) + ":" + str(row) + "-" + str(newGrid.getCell(row, column)))
-        #print("Loop " + str(loopCount) + " End")
-        #print(grid)
-        #print(newGrid)
-        if grid == newGrid:
-            print("This puzzle cannot be solved")
-            break;
-        else:
-            grid = CopyGrid(newGrid)
-        loopCount = loopCount+1
-        #wait = input()
+    grid = SolveGrid(grid)
         
-    
     print("Final Grid")
     print (grid)
     print("Finishing Sudoku Solver")
