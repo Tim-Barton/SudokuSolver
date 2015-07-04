@@ -22,7 +22,12 @@ class Cell(object):
         return self.values.__repr__( *args, **kwargs)
     
     def __str__(self, *args, **kwargs):
-        return self.values.__str__(*args, **kwargs)
+        retVal = ""
+        for i in self.values:
+            retVal = retVal + str(i) + ","
+        for i in range(1,10 - len(self.values)):
+            retVal = retVal + "  "
+        return retVal
     
     def Copy(self):
         newList = list()

@@ -21,10 +21,11 @@ if __name__ == '__main__':
     
     grid = Grid()
     
+    #hard coded puzzle from sudoku.com.au (1st July 2015)
     gridSetup = [ [1,1,8],
-                  [1,5,7],
-                  [1,6,9],
-                  [1,7,3],
+                  [1,6,7],
+                  [1,7,9],
+                  [1,8,3],
                   [2,1,4],
                   [2,3,1],
                   [2,4,5],
@@ -62,37 +63,58 @@ if __name__ == '__main__':
         cell = grid.getCell(number[0], number[1])
         cell.setValues([number[2]])
         
+    print("Starting Grid")
     print(grid)
     
+    loopCount=1
     while not grid.isSolved():
         newGrid = CopyGrid(grid)
+        #print("Loop " + str(loopCount) + " Start")
+        #print(grid)
+        #print(newGrid)
         for column in range(1,10):
             for row in range(1,10):
                 newCell = newGrid.getCell(row, column)
-                #print(str(column) + ":" + str(row) + "-" + str(newCell))
-                columnCells = grid.getColumn(column)
-                for cell in columnCells:
-                    if len(cell.values) is 1:
-                        value = cell.values[0]
-                        newCell.removeValue(value)
-                rowCells = grid.getColumn(column)
-                for cell in rowCells:
-                    if len(cell.values) is 1:
-                        value = cell.values[0]
-                        newCell.removeValue(value)
-                gridCells = grid.getLocalGrid(row, column)
-                for cell in gridCells:
-                    if len(cell.values) is 1:
-                        value = cell.values[0]
-                        newCell.removeValue(value)
-                #print(str(column) + ":" + str(row) + "-" + str(newCell))
-                #print(str(column) + ":" + str(row) + "-" + str(newGrid.getCell(row, column)))
+                if len(newCell.values) is not 1:
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    columnCells = grid.getColumn(column)
+                    for cell in columnCells:
+                        if len(cell.values) is 1:
+                            value = cell.values[0]
+                            newCell.removeValue(value)
+                    #print("Column: " + str(columnCells))
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    #wait = input()
+                    rowCells = grid.getRow(row)
+                    for cell in rowCells:
+                        if len(cell.values) is 1:
+                            value = cell.values[0]
+                            newCell.removeValue(value)
+                    #print("Row: " + str(rowCells))
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    #wait = input()
+                    gridCells = grid.getLocalGrid(row, column)
+                    for cell in gridCells:
+                        if len(cell.values) is 1:
+                            value = cell.values[0]
+                            newCell.removeValue(value)
+                    #print("Grid: " + str(gridCells))
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    #wait = input()
+                    #print(str(column) + ":" + str(row) + "-" + str(newCell))
+                    #print(str(column) + ":" + str(row) + "-" + str(newGrid.getCell(row, column)))
+        #print("Loop " + str(loopCount) + " End")
+        #print(grid)
+        #print(newGrid)
         if grid == newGrid:
+            print("This puzzle cannot be solved")
             break;
         else:
             grid = CopyGrid(newGrid)
-        print(grid)
+        loopCount = loopCount+1
+        #wait = input()
         
     
+    print("Final Grid")
     print (grid)
     print("Finishing Sudoku Solver")
