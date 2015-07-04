@@ -9,9 +9,7 @@ from cell import Cell
 class Grid(object):
     '''
     classdocs
-    '''    
-    
-    
+    '''        
     def __str__(self, *args, **kwargs):
         retVal = ""
         for row in range(1,10):
@@ -30,6 +28,18 @@ class Grid(object):
             return True
         return False
     
+    def CopyGrid(self):
+        dst = Grid()
+        for row in range(1,10):
+            for column in range(1,10):
+                thisCell = self.getCell(row,column)
+                if thisCell is None:
+                    return None
+                dst.setCell(row,column,thisCell.CopyCell())
+        return dst
+    
+    
+    #checks that each cell has only one value, but doesn't check the rules are met
     def isSolved(self):
         for column in range(0,9):
             for row in range(0,9):

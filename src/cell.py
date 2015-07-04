@@ -4,6 +4,8 @@ Created on 1 Jul 2015
 @author: sphinx
 '''
 
+
+
 class Cell(object):
     '''
     classdocs
@@ -29,7 +31,7 @@ class Cell(object):
             retVal = retVal + "  "
         return retVal
     
-    def Copy(self):
+    def CopyCell(self):
         newList = list()
         for value in self.values:
             newList.append(value)

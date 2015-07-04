@@ -5,9 +5,10 @@ Created on 4 Jul 2015
 '''
 import unittest
 from grid import Grid
-from main import SolveGrid
+from main import SolveGrid, ImportGrid
 
 #hard coded puzzle from sudoku.com.au (1st July 2015)
+#same as the demo.csv
 gridSetup = [ [1,1,8],
               [1,6,7],
               [1,7,9],
@@ -57,6 +58,11 @@ class Test(unittest.TestCase):
 
     def tearDown(self):
         pass
+    
+    def testImportGrid(self):
+        file = open("../demo.csv")
+        importGrid = ImportGrid(file)
+        self.assertEquals(self.grid, importGrid, "Grid did not import correctly")
 
 
     def testSolveGrid(self):
