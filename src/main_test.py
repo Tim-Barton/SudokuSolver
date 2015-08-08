@@ -5,7 +5,7 @@ Created on 4 Jul 2015
 '''
 import unittest
 from grid import Grid
-from main import SolveGrid, ImportGrid
+from main import SolveGridBruteForce, ImportGrid, SolveGridMsgQueue
 
 #hard coded puzzle from sudoku.com.au (1st July 2015)
 #same as the demo.csv
@@ -48,25 +48,8 @@ gridSetup = [ [1,1,8],
 
 
 class Test(unittest.TestCase):
-
-    def setUp(self):
-        self.grid = Grid()        
-        for number in gridSetup:
-            cell = self.grid.getCell(number[0], number[1])
-            cell.setValues([number[2]])
-
-
-    def tearDown(self):
-        pass
     
-    def testImportGrid(self):
-        file = open("../demo.csv")
-        importGrid = ImportGrid(file)
-        self.assertEquals(self.grid, importGrid, "Grid did not import correctly")
-
-
-    def testSolveGrid(self):
-        result = SolveGrid(self.grid)
+    def isGridProperlySolved(self,result):
         for row in range(1,10):
             thisRow = result.getRow(row)
             for cell in thisRow:
@@ -88,7 +71,33 @@ class Test(unittest.TestCase):
                     for othercell in thisGrid:
                         if cell is not othercell:
                             message = "Grid for (" + str(row) + "," + str(column) + ") has duplicates: " + str(thisGrid)
-                            self.assertNotEqual(cell, othercell, message)                                   
+                            self.assertNotEqual(cell, othercell, message)
+
+    def setUp(self):
+        self.grid = Grid()        
+        for number in gridSetup:
+            cell = self.grid.getCell(number[0], number[1])
+            cell.setValues([number[2]])
+
+
+    def tearDown(self):
+        pass
+    
+    def testImportGrid(self):
+        file = open("../demo.csv")
+        importGrid = ImportGrid(file)
+        self.assertEquals(self.grid, importGrid, "Grid did not import correctly")
+
+
+    def testSolveGridBruteForce(self):
+        result = SolveGridBruteForce(self.grid)
+        self.isGridProperlySolved(result)
+        
+        
+    def testSolveGridMsgQueue(self):
+        result = SolveGridMsgQueue(self.grid)
+        self.isGridProperlySolved(result)
+                                           
 
 
 if __name__ == "__main__":

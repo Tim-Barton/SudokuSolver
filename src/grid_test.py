@@ -15,7 +15,7 @@ class Test(unittest.TestCase):
         self.grid = Grid()
         for row in range(1,10):
             for column in range(1,10):
-                cell = Cell()
+                cell = Cell(row,column)
                 cell.setValues([row,column])
                 self.grid.setCell(row, column, cell)
 
@@ -26,16 +26,18 @@ class Test(unittest.TestCase):
         for row in range(1,10):
             thisRow = self.grid.getRow(row)
             for cell in thisRow:
-                self.assertEqual(cell.values[0], row, "Row Unequal")
+                self.assertEquals(cell.values[0], row, "Row Unequal")
+                self.assertEquals(cell.row, row, "Row co-ords wrong")
 
     def testGetColumn(self):
         for column in range(1,10):
             thisColumn = self.grid.getColumn(column)
             for cell in thisColumn:
                 self.assertEquals(cell.values[1], column, "Column Unequal")
+                self.assertEquals(cell.column, column, "Column co-ords wrong")
                 
     def testSetCellGetCell(self):
-        testCell = Cell()
+        testCell = Cell(1,1)
         testCell.setValues([1])
         currentCell = self.grid.getCell(1,1)
         self.assertNotEqual(testCell, currentCell, "Incorrect setup, currentCell should not match")

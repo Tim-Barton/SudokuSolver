@@ -69,6 +69,12 @@ class Grid(object):
     def getRow(self,row):
         return self.gridList[row-1]
     
+    def setQueue(self,msgQueue):
+        for row in range(1,10):
+            for column in range(1,10):
+                cell = self.getCell(row,column)
+                cell.setQueue(msgQueue)
+    
     def getLocalGrid(self,row,column):
         localGridRow = int((row-1)/3)
         localGridColumn = int((column-1)/3)
@@ -85,10 +91,10 @@ class Grid(object):
         Constructor
         '''
         self.gridList = list()
-        for i in range(0,9):
+        for rowIndex in range(1,10):
             row = list()
-            for index in range(0,9):
-                cell = Cell()
+            for column in range(1,10):
+                cell = Cell(rowIndex,column)
                 row.append(cell)
             self.gridList.append(row)
         
